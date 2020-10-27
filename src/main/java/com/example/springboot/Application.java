@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @SpringBootApplication
 public class Application {
 
-	private static final Logger log = LoggerFactory.getLogger(Application.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -30,9 +30,9 @@ public class Application {
 					new Account("44", "55", "66")));
 
 			for (Cheque cheque : repository.findAll()) {
-				log.info(cheque.toString());
+				LOGGER.info(cheque.toString());
 			}
-			log.info("");
+			LOGGER.info("");
 
 		};
 	}
