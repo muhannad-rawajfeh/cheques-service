@@ -1,31 +1,38 @@
 package com.example.springboot;
 
-import java.util.Arrays;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+
+import java.math.BigDecimal;
 
 @SpringBootApplication
 public class Application {
+
+	private static final Logger log = LoggerFactory.getLogger(Application.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
 
 	@Bean
-	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+	public CommandLineRunner commandLineRunner(ChequesRepository repository) {
 		return args -> {
 
-			System.out.println("Let's inspect the beans provided by Spring Boot:");
+			repository.save(new Cheque(new BigDecimal(1000), "0001", "02",
+					new Account("11", "22", "33"),
+					new Account("44", "55", "66")));
+			repository.save(new Cheque(new BigDecimal(2000), "0002", "02",
+					new Account("11", "22", "33"),
+					new Account("44", "55", "66")));
 
-			String[] beanNames = ctx.getBeanDefinitionNames();
-			Arrays.sort(beanNames);
-			for (String beanName : beanNames) {
-				System.out.println(beanName);
+			for (Cheque cheque : repository.findAll()) {
+				log.info(cheque.toString());
 			}
+			log.info("");
 
 		};
 	}
