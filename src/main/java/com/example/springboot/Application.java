@@ -25,6 +25,7 @@ public class Application {
 			repository.save(new Cheque(new BigDecimal(1000), "0001", "02",
 					new Account("11", "22", "33"),
 					new Account("44", "55", "66")));
+
 			repository.save(new Cheque(new BigDecimal(2000), "0002", "02",
 					new Account("11", "22", "33"),
 					new Account("44", "55", "66")));
@@ -32,7 +33,6 @@ public class Application {
 			for (Cheque cheque : repository.findAll()) {
 				LOGGER.info(cheque.toString());
 			}
-			LOGGER.info("");
 
 		};
 	}
