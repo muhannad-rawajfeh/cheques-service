@@ -1,10 +1,10 @@
-package com.example.springboot;
+package controller;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-public class Cheque {
+public class ChequeEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -19,7 +19,7 @@ public class Cheque {
             @AttributeOverride(name = "accountNumber", column = @Column(name = "payee_account_number"))
     })
     @Embedded
-    private Account payee;
+    private AccountEntity payee;
 
     @AttributeOverrides({
             @AttributeOverride(name = "bankCode", column = @Column(name = "drawer_bank_code")),
@@ -27,15 +27,55 @@ public class Cheque {
             @AttributeOverride(name = "accountNumber", column = @Column(name = "drawer_account_number"))
     })
     @Embedded
-    private Account drawer;
+    private AccountEntity drawer;
 
-    protected Cheque() {}
+    protected ChequeEntity() {}
 
-    public Cheque(BigDecimal amount, String number, String digit, Account payee, Account drawer) {
+    public ChequeEntity(BigDecimal amount, String number, String digit, AccountEntity payee, AccountEntity drawer) {
         this.amount = amount;
         this.number = number;
         this.digit = digit;
         this.payee = payee;
+        this.drawer = drawer;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getDigit() {
+        return digit;
+    }
+
+    public void setDigit(String digit) {
+        this.digit = digit;
+    }
+
+    public AccountEntity getPayee() {
+        return payee;
+    }
+
+    public void setPayee(AccountEntity payee) {
+        this.payee = payee;
+    }
+
+    public AccountEntity getDrawer() {
+        return drawer;
+    }
+
+    public void setDrawer(AccountEntity drawer) {
         this.drawer = drawer;
     }
 

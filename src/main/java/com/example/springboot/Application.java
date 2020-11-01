@@ -1,5 +1,7 @@
 package com.example.springboot;
 
+import controller.AccountEntity;
+import controller.ChequeEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -22,16 +24,12 @@ public class Application {
 	public CommandLineRunner commandLineRunner(ChequesRepository repository) {
 		return args -> {
 
-			repository.save(new Cheque(new BigDecimal(1000), "0001", "02",
-					new Account("11", "22", "33"),
-					new Account("44", "55", "66")));
+			repository.save(new ChequeEntity(new BigDecimal(1000), "0001", "02",
+					new AccountEntity("11", "22", "33"),
+					new AccountEntity("44", "55", "66")));
 
-			repository.save(new Cheque(new BigDecimal(2000), "0002", "02",
-					new Account("11", "22", "33"),
-					new Account("44", "55", "66")));
-
-			for (Cheque cheque : repository.findAll()) {
-				LOGGER.info(cheque.toString());
+			for (ChequeEntity chequeEntity : repository.findAll()) {
+				LOGGER.info(chequeEntity.toString());
 			}
 
 		};

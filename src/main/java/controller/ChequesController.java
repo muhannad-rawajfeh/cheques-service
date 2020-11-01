@@ -1,10 +1,11 @@
-package com.example.springboot;
+package controller;
 
+import com.example.springboot.ChequesRepository;
+import objects.Cheque;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.Optional;
 
 @RestController
@@ -19,11 +20,9 @@ public class ChequesController {
 	}
 
 	@PostMapping("/cheques")
-	public void createCheque() {
+	public void createCheque(@RequestBody Cheque cheque) {
 		LOGGER.info("Cheque Created");
-		repository.save(new Cheque(new BigDecimal(5000), "0003", "02",
-				new Account("11", "22", "33"),
-				new Account("44", "55", "66")));
+		repository.save(ChequeMapper.chequeToEntity(cheque));
 	}
 
 //	@PutMapping("/cheques/{id}")
@@ -45,7 +44,7 @@ public class ChequesController {
 
 	@GetMapping("/cheques/{id}")
 	public String getCheque(@PathVariable Long id) {
-		Optional<Cheque> cheque = repository.findById(id);
+		Optional<ChequeEntity> cheque = repository.findById(id);
 		if (!cheque.isPresent()) {
 			return "Cheque does not exist";
 		}
@@ -55,13 +54,13 @@ public class ChequesController {
 
 	@DeleteMapping("/cheques/{id}")
 	public void deleteCheque(@PathVariable Long id) {
-		Optional<Cheque> cheque = repository.findById(id);
+		Optional<ChequeEntity> cheque = repository.findById(id);
 		if (!cheque.isPresent()) {
 			LOGGER.info("Cheque does not exist");
 		}
 		else {
-			repository.deleteById(id);
 			LOGGER.info("Cheque deleted");
+			repository.deleteById(id);
 		}
 	}
 }
