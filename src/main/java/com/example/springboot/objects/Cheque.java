@@ -1,4 +1,4 @@
-package objects;
+package com.example.springboot.objects;
 
 import java.math.BigDecimal;
 

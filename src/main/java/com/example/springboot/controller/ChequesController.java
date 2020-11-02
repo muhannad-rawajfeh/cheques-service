@@ -1,7 +1,8 @@
-package controller;
+package com.example.springboot.controller;
 
-import com.example.springboot.ChequesRepository;
-import objects.Cheque;
+import com.example.springboot.repository.ChequeEntity;
+import com.example.springboot.repository.ChequesRepository;
+import com.example.springboot.objects.Cheque;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -25,16 +26,16 @@ public class ChequesController {
 		repository.save(ChequeMapper.chequeToEntity(cheque));
 	}
 
-//	@PutMapping("/cheques/{id}")
-//	public void updateCheque(@PathVariable Long id) {
-//		Optional<Cheque> cheque = repository.findById(id);
-//		if (!cheque.isPresent()) {
-//			LOGGER.info("Cheque does not exist");
-//		}
-//		else {
-//
-//		}
-//	}
+	@PostMapping("/cheques/{id}")
+	public void updateCheque(@PathVariable Long id, @RequestBody Cheque cheque) {
+		Optional<ChequeEntity> chequeEntity = repository.findById(id);
+		if (!chequeEntity.isPresent()) {
+			LOGGER.info("Cheque does not exist");
+		}
+		else {
+			repository.save(ChequeMapper.chequeToEntity(cheque, id));
+		}
+	}
 
 	@GetMapping("/cheques")
 	public String listCheques() {

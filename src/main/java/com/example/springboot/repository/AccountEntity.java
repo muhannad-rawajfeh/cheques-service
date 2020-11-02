@@ -1,12 +1,17 @@
-package objects;
+package com.example.springboot.repository;
 
-public class Account {
+import javax.persistence.Embeddable;
+
+@Embeddable
+public class AccountEntity {
 
     private String bankCode;
     private String branchCode;
     private String accountNumber;
 
-    public Account(String bankCode, String branchCode, String accountNumber) {
+    protected AccountEntity() {}
+
+    public AccountEntity(String bankCode, String branchCode, String accountNumber) {
         this.bankCode = bankCode;
         this.branchCode = branchCode;
         this.accountNumber = accountNumber;

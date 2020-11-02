@@ -1,6 +1,5 @@
-package com.example.springboot;
+package com.example.springboot.repository;
 
-import controller.ChequeEntity;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ChequesRepository extends CrudRepository<ChequeEntity, Long> {

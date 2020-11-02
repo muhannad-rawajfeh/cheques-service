@@ -1,4 +1,4 @@
-package controller;
+package com.example.springboot.repository;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -32,6 +32,15 @@ public class ChequeEntity {
     protected ChequeEntity() {}
 
     public ChequeEntity(BigDecimal amount, String number, String digit, AccountEntity payee, AccountEntity drawer) {
+        this.amount = amount;
+        this.number = number;
+        this.digit = digit;
+        this.payee = payee;
+        this.drawer = drawer;
+    }
+
+    public ChequeEntity(Long id, BigDecimal amount, String number, String digit, AccountEntity payee, AccountEntity drawer) {
+        this.id = id;
         this.amount = amount;
         this.number = number;
         this.digit = digit;
