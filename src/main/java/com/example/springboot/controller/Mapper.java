@@ -5,7 +5,7 @@ import com.example.springboot.objects.Cheque;
 import com.example.springboot.repository.AccountEntity;
 import com.example.springboot.repository.ChequeEntity;
 
-public class ChequeMapper {
+public class Mapper {
 
     public static AccountEntity accountToEntity(Account account) {
         return new AccountEntity(account.getBankCode(), account.getBranchCode(), account.getAccountNumber());

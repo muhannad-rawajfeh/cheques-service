@@ -1,6 +1,5 @@
-package com.example.springboot;
+package com.example.springboot.controller;
 
-import com.example.springboot.controller.ChequeMapper;
 import com.example.springboot.objects.Account;
 import com.example.springboot.objects.Cheque;
 import com.example.springboot.repository.AccountEntity;
@@ -10,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-public class ChequeMapperTest {
+public class MapperTest {
 
     private final BigDecimal AMOUNT = new BigDecimal("100.00");
     private final String NUMBER = "0001";
@@ -32,7 +31,7 @@ public class ChequeMapperTest {
     void givenAccount_whenMap_thenShouldReturnAccountEntity() {
 
         Account account = new Account(BANK_CODE, BRANCH_CODE, ACCOUNT_NUMBER);
-        AccountEntity accountEntity = ChequeMapper.accountToEntity(account);
+        AccountEntity accountEntity = Mapper.accountToEntity(account);
 
         Assertions.assertEquals(BANK_CODE, accountEntity.getBankCode());
         Assertions.assertEquals(BRANCH_CODE, accountEntity.getBranchCode());
@@ -43,7 +42,7 @@ public class ChequeMapperTest {
     void givenAccountEntity_whenMap_thenShouldReturnAccount() {
 
         AccountEntity accountEntity = new AccountEntity(BANK_CODE, BRANCH_CODE, ACCOUNT_NUMBER);
-        Account account = ChequeMapper.accountFromEntity(accountEntity);
+        Account account = Mapper.accountFromEntity(accountEntity);
 
         Assertions.assertEquals(BANK_CODE, account.getBankCode());
         Assertions.assertEquals(BRANCH_CODE, account.getBranchCode());
@@ -57,7 +56,7 @@ public class ChequeMapperTest {
         Account drawer = new Account(DRAWER_BANK_CODE, DRAWER_BRANCH_CODE, DRAWER_ACCOUNT_NUMBER);
 
         Cheque cheque = new Cheque(AMOUNT, NUMBER, DIGIT, payee, drawer);
-        ChequeEntity chequeEntity = ChequeMapper.chequeToEntity(cheque);
+        ChequeEntity chequeEntity = Mapper.chequeToEntity(cheque);
 
         Assertions.assertEquals(AMOUNT, chequeEntity.getAmount());
         Assertions.assertEquals(DIGIT, chequeEntity.getDigit());
@@ -79,7 +78,7 @@ public class ChequeMapperTest {
         AccountEntity drawerEntity = new AccountEntity(DRAWER_BANK_CODE, DRAWER_BRANCH_CODE, DRAWER_ACCOUNT_NUMBER);
 
         ChequeEntity chequeEntity = new ChequeEntity(AMOUNT, NUMBER, DIGIT, payeeEntity, drawerEntity);
-        Cheque cheque = ChequeMapper.chequeFromEntity(chequeEntity);
+        Cheque cheque = Mapper.chequeFromEntity(chequeEntity);
 
         Assertions.assertEquals(AMOUNT, cheque.getAmount());
         Assertions.assertEquals(DIGIT, cheque.getDigit());
@@ -102,7 +101,7 @@ public class ChequeMapperTest {
 
         Cheque cheque = new Cheque(AMOUNT, NUMBER, DIGIT, payee, drawer);
         final Long id = 1L;
-        ChequeEntity chequeEntity = ChequeMapper.chequeToEntity(cheque, id);
+        ChequeEntity chequeEntity = Mapper.chequeToEntity(cheque, id);
 
         Assertions.assertEquals(id, chequeEntity.getId());
         Assertions.assertEquals(AMOUNT, chequeEntity.getAmount());
