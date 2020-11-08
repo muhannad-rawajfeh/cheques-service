@@ -29,7 +29,7 @@ public class ChequeEntity {
     @Embedded
     private AccountEntity drawer;
 
-    protected ChequeEntity() {}
+    public ChequeEntity() {}
 
     public ChequeEntity(BigDecimal amount, String number, String digit, AccountEntity payee, AccountEntity drawer) {
         this.amount = amount;
