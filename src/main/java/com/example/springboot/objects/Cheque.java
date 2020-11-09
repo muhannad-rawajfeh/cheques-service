@@ -10,6 +10,9 @@ public class Cheque {
     private Account payee;
     private Account drawer;
 
+    public Cheque() {
+    }
+
     public Cheque(BigDecimal amount, String number, String digit, Account payee, Account drawer) {
         this.amount = amount;
         this.number = number;

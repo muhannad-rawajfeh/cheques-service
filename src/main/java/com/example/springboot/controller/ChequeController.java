@@ -24,24 +24,26 @@ public class ChequeController {
 	}
 
 	@PostMapping("/cheques")
-	public ChequeEntity createCheque(@RequestBody Cheque cheque) {
-		LOGGER.info("Cheque Created");
-		return repository.save(Mapper.chequeToEntity(cheque));
+	public String createCheque(@RequestBody Cheque cheque) {
+		LOGGER.info("Create cheque request");
+		repository.save(Mapper.chequeToEntity(cheque));
+		return "Cheque created successfully";
 	}
 
 	@PutMapping("/cheques/{id}")
-	public ChequeEntity updateCheque(@PathVariable Long id, @RequestBody Cheque cheque) {
+	public String updateCheque(@PathVariable Long id, @RequestBody Cheque cheque) {
+		LOGGER.info("Update cheque request");
 		repository.findById(id)
 				.orElseThrow(() -> new ChequeNotFoundException(id));
-		LOGGER.info("Cheque Updated");
-		return repository.save(Mapper.chequeToEntity(cheque, id));
+		repository.save(Mapper.chequeToEntity(cheque, id));
+		return "Cheque updated successfully";
 	}
 
 	@GetMapping("/cheques")
 	public Page<ChequeEntity> listCheques(ChequeEntity cheque,
 										  @RequestParam Optional<Integer> page,
 										  @RequestParam Optional<String> sortBy) {
-		LOGGER.info("Cheques List");
+		LOGGER.info("List cheques request");
 		List<ChequeEntity> chequesList = repository.findAll(Example.of(cheque));
 		return new PageImpl<>(chequesList, PageRequest.of(page.orElse(0), 5,
 				Sort.Direction.ASC, sortBy.orElse("id")), chequesList.size());
@@ -49,16 +51,17 @@ public class ChequeController {
 
 	@GetMapping("/cheques/{id}")
 	public ChequeEntity getCheque(@PathVariable Long id) {
-		LOGGER.info("Cheque Requested");
+		LOGGER.info("Get cheque request");
 		return repository.findById(id)
 				.orElseThrow(() -> new ChequeNotFoundException(id));
 	}
 
 	@DeleteMapping("/cheques/{id}")
-	public void deleteCheque(@PathVariable Long id) {
+	public String deleteCheque(@PathVariable Long id) {
+		LOGGER.info("Delete cheque request");
 		repository.findById(id)
 				.orElseThrow(() -> new ChequeNotFoundException(id));
-		LOGGER.info("Cheque Deleted");
 		repository.deleteById(id);
+		return "Cheque deleted successfully";
 	}
 }
