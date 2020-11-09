@@ -2,7 +2,6 @@ package com.example.springboot.controller;
 
 import com.example.springboot.objects.Account;
 import com.example.springboot.objects.Cheque;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
@@ -14,12 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ChequeControllerTest extends AbstractTest {
 
-    @Override
-    @Before
-    public void setUp() {
-        super.setUp();
-    }
-
     @Test
     void createCheque() throws Exception {
 
@@ -29,7 +22,7 @@ public class ChequeControllerTest extends AbstractTest {
                 new Account("11", "22", "33"),
                 new Account("44", "55", "66"));
 
-        String inputJson = super.mapToJson(cheque);
+        String inputJson = mapToJson(cheque);
 
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
