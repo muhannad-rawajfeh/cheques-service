@@ -11,8 +11,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class ChequeControllerTest extends AbstractTest {
 
@@ -53,17 +51,7 @@ public class ChequeControllerTest extends AbstractTest {
     }
 
     @Test
-    void getCheque() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/cheques/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().json("{\n" +
-                        "    \"id\": 1,\n" +
-                        "    \"amount\": null,\n" +
-                        "    \"number\": null,\n" +
-                        "    \"digit\": null,\n" +
-                        "    \"payee\": null,\n" +
-                        "    \"drawer\": null\n" +
-                        "}"));
+    void getCheque() {
     }
 
     @Test
