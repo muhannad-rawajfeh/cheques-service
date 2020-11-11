@@ -21,7 +21,7 @@ import java.io.IOException;
 public abstract class AbstractTest {
 
     @MockBean
-    private ChequeRepository chequeRepository;
+    protected ChequeRepository chequeRepository;
 
     @Autowired
     protected MockMvc mvc;
