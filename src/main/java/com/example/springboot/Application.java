@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class Application {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
+	private static final Logger log = LoggerFactory.getLogger(Application.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -24,7 +24,7 @@ public class Application {
 		return args -> {
 			repository.save(new ChequeEntity());
 			repository.save(new ChequeEntity());
-			LOGGER.info("Initialized Database");
+			log.info("Initialized Database");
 		};
 	}
 }
