@@ -6,16 +6,15 @@ import com.example.springboot.repository.ChequeEntity;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.verify;
@@ -28,13 +27,14 @@ public class ChequeControllerTest extends AbstractTest {
 
         String uri = "/cheques";
         Cheque cheque = new Cheque(new BigDecimal("1000"), "123", "01",
-                new Account("11", "22", "33"),
-                new Account("44", "55", "66"));
+                new Account("12", "1234", "12345678"),
+                new Account("21", "4321", "87654321"));
 
         String inputJson = mapToJson(cheque);
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(inputJson)).andReturn();
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(inputJson))
+                .andReturn();
 
         int status = mvcResult.getResponse().getStatus();
         assertEquals(200, status);
@@ -50,13 +50,14 @@ public class ChequeControllerTest extends AbstractTest {
 
         String uri = "/cheques/1";
         Cheque cheque = new Cheque(new BigDecimal("1000"), "123", "01",
-                new Account("11", "22", "33"),
-                new Account("44", "55", "66"));
+                new Account("12", "1234", "12345678"),
+                new Account("21", "4321", "87654321"));
 
         String inputJson = mapToJson(cheque);
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.put(uri)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(inputJson)).andReturn();
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(inputJson))
+                .andReturn();
 
         int status = mvcResult.getResponse().getStatus();
         assertEquals(200, status);
@@ -68,22 +69,28 @@ public class ChequeControllerTest extends AbstractTest {
     @Test
     void listCheques() throws Exception {
 
-//        String uri = "/cheques";
-//        mvc.perform(MockMvcRequestBuilders.get(uri)
-//                .param("page", "0")
-//                .param("sortBy", "number")
-//                .param("amount", ""))
-//                .andExpect(status().isOk());
-//
-//        ArgumentCaptor<Pageable> pageableCaptor =
-//                ArgumentCaptor.forClass(Pageable.class);
-//        verify(chequeRepository).findAll(pageableCaptor.capture());
-//        PageRequest pageable = (PageRequest) pageableCaptor.getValue();
-//
-//        assertThat(pageable).hasPageNumber(5);
-//        assertThat(pageable).hasPageSize(10);
-//        assertThat(pageable).hasSort("name", Sort.Direction.ASC);
-//        assertThat(pageable).hasSort("id", Sort.Direction.DESC);
+        ChequeEntity chequeEntity = new ChequeEntity();
+        chequeEntity.setId(2L);
+        Pageable pageable = PageRequest.of(3, 8);
+        Mockito.when(chequeRepository.findAll(Example.of(chequeEntity), pageable))
+                .thenReturn(new PageImpl<>(Collections.singletonList(chequeEntity)));
+
+        String uri = "/cheques";
+        mvc.perform(MockMvcRequestBuilders.get(uri)
+                        .param("id", "2")
+                        .param("page", "3")
+                        .param("size", "8"))
+                .andExpect(status().isOk());
+
+        ArgumentCaptor<Example<ChequeEntity>> exampleCaptor = ArgumentCaptor.forClass(Example.class);
+        ArgumentCaptor<Pageable> pageableCaptor = ArgumentCaptor.forClass(Pageable.class);
+
+        verify(chequeRepository).findAll(exampleCaptor.capture(), pageableCaptor.capture());
+        assertEquals(2L, exampleCaptor.getValue().getProbe().getId());
+        Pageable pageableValue = pageableCaptor.getValue();
+        assertEquals(3, pageableValue.getPageNumber());
+        assertEquals(8, pageableValue.getPageSize());
+        assertEquals(Sort.unsorted(), pageableValue.getSort());
     }
 
     @Test
@@ -93,7 +100,8 @@ public class ChequeControllerTest extends AbstractTest {
 
         String uri = "/cheques/1";
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
-                .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
 
         int status = mvcResult.getResponse().getStatus();
         assertEquals(200, status);

@@ -6,7 +6,9 @@ import com.example.springboot.repository.ChequeEntity;
 import com.example.springboot.repository.ChequeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +18,6 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -68,13 +69,9 @@ public class ChequeController {
 	}
 
 	@GetMapping("/cheques")
-	public Page<ChequeEntity> listCheques(ChequeEntity cheque,
-										  @RequestParam Optional<Integer> page,
-										  @RequestParam Optional<String> sortBy) {
+	public Page<ChequeEntity> listCheques(ChequeEntity cheque, Pageable pageable) {
 		log.info("List cheques request");
-		List<ChequeEntity> chequesList = repository.findAll(Example.of(cheque));
-		return new PageImpl<>(chequesList, PageRequest.of(page.orElse(0), 5,
-				Sort.Direction.ASC, sortBy.orElse("id")), chequesList.size());
+		return repository.findAll(Example.of(cheque), pageable);
 	}
 
 	@GetMapping("/cheques/{id}")
